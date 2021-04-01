@@ -98,7 +98,7 @@ def parse_tweet_data(tweet_text):
 		tweets_list.append(tweets_data)
 	return tweets_list
 
-def create_final_data(api, trending_topics, lang="en", num_tweets=5, result_type="mixed"):
+def create_final_data(api, trending_topics, lang="en", num_tweets=10, result_type="mixed"):
 	"""
 	Une informações do trending topic e seus tweets.
 	
