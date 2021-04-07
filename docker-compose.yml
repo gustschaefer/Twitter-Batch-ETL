@@ -32,8 +32,6 @@ services:
                 max-file: "3"
         volumes:
             - ./DAG:/usr/local/airflow/dags
-            # - ./plugins:/usr/local/airflow/plugins
-            # for linux based systems
             - ./requirements.txt:/requirements.txt
             - ~/.aws:/usr/local/airflow/.aws/
         ports:
