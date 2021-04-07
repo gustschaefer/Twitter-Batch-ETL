@@ -5,6 +5,7 @@ from airflow.operators.python_operator import PythonOperator
 from ETL_scripts.load_to_s3 import local_to_s3
 from ETL_scripts.config import bucket_name, temp_parquet_files
 
+# Teste simples para verificar se o carregamento esta sendo feito corretamente
 
 default_args = {
     "owner": "airflow",
@@ -20,8 +21,7 @@ with DAG(
     default_args=default_args
 ) as dag:
 
-    # Inicio do Pipeline
-    start_of_data_pipeline = DummyOperator(task_id='start_of_data_pipeline', dag=dag)
+    start = DummyOperator(task_id='start_of_data_pipeline', dag=dag)
 
     trending_to_s3 = PythonOperator(
     task_id='parquet_files_to_s3',
@@ -32,8 +32,6 @@ with DAG(
     },
 )
 
-    # Fim da Pipeline
-    end_of_data_pipeline = DummyOperator(task_id='end_of_data_pipeline', dag=dag)
+    end = DummyOperator(task_id='end_of_data_pipeline', dag=dag)
 
-# Definição do padrão de execução
-start_of_data_pipeline >> trending_to_s3 >> end_of_data_pipeline
+start >> trending_to_s3 >> end
