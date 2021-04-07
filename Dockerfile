@@ -61,7 +61,7 @@ RUN set -ex \
 
 RUN pip install -U pip setuptools wheel \
     && pip install pytz \
-    && pip install pyspark \
+    #&& pip install pyspark \
     # && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \

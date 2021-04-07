@@ -3,6 +3,7 @@ from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
 from ETL_scripts.load_to_s3 import local_to_s3
+from ETL_scripts.config import bucket_name, temp_parquet_files
 
 
 default_args = {
@@ -25,7 +26,11 @@ with DAG(
     trending_to_s3 = PythonOperator(
     task_id='parquet_files_to_s3',
     python_callable=local_to_s3,
-    )
+    op_kwargs={
+            'bucket_name': bucket_name, 
+            'parquet_filepath': temp_parquet_files
+    },
+)
 
     # Fim da Pipeline
     end_of_data_pipeline = DummyOperator(task_id='end_of_data_pipeline', dag=dag)
