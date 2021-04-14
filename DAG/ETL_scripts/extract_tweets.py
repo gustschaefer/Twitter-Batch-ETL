@@ -2,7 +2,7 @@ import tweepy
 import json
 from datetime import date, datetime
 import time
-from config import consumer_key, consumer_secret, access_token, access_token_secret, temp_json_files
+import os
 
 def initialize_tweepy(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET):
 	"""
@@ -15,7 +15,7 @@ def initialize_tweepy(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_
 			 wait_on_rate_limit_notify=True, retry_count=5, retry_delay=10)
 	return api
 
-def get_trending_topics(local_id, num_trends=-1, min_volume=1000):
+def get_trending_topics(api, local_id, num_trends=-1, min_volume=1000):
 	"""
 	Retorna os trending topics de uma região.
 	
@@ -144,25 +144,30 @@ def save_json_file(json_data, temp_files_path, file_name=f'TweetsData-{date.toda
 	:param json_data: lista final
 	:param filme_name: nome do arquivo json
 	"""
-	
-	with open(temp_files_path + file_name, 'w', encoding='utf-8') as f:
+	path = temp_files_path + file_name
+	if not os.path.isdir(temp_files_path):
+		os.makedirs(temp_files_path)
+		print(f"New {temp_files_path} folder created!")
+
+	with open(path, 'w', encoding='utf-8') as f:
 		json.dump(json_data, f, indent=4, default=str, ensure_ascii=False)
 
-def extract_trending_tweets(num_trends=-1, num_tweets=10, temp_json_files=temp_json_files,
-							CONSUMER_KEY=consumer_key, 
-							CONSUMER_SECRET=consumer_secret, 
-							ACCESS_TOKEN=access_token, 
-							ACCESS_TOKEN_SECRET=access_token_secret):
+def extract_trending_tweets(CONSUMER_KEY, 
+							CONSUMER_SECRET, 
+							ACCESS_TOKEN, 
+							ACCESS_TOKEN_SECRET,
+							temp_json_files="./temp/json",
+							num_trends=-1, num_tweets=10):
 	# Inicia a API
 	api = initialize_tweepy(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
 	# Países escolhidos (devem ser estar contidos na lista de woeid da funcao get_country_id)
-	countries = ["UK", "Brazil", "Germany", "Canada", "USA", "Sweden"]
+	countries = ["Brazil"] #["UK", "Brazil", "Germany", "Canada", "USA", "Sweden"]
 
 	for country in countries:
 		c_id = get_country_id(api, country)
 		# Retorna trending topics do país
-		trending_topics = get_trending_topics(c_id["id"], num_trends=num_trends)
+		trending_topics = get_trending_topics(api, c_id["id"], num_trends=num_trends)
 		json_tweets = create_final_data(api, trending_topics, lang=c_id["lang"], num_tweets=num_tweets)
 		# Cria json file, ex.: TweetDataBrazil-2021-03-30.json
 		file_name = f'TweetsData-{country}-{date.today()}.json'
