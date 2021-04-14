@@ -44,7 +44,7 @@ def get_trending_topics(api, local_id, num_trends=-1, min_volume=1000):
 
 def search_trend(topic, api, lang, num_tweets, result_type):
 	"""
-	Faze a pesquisa dos tweets relacionados a um tópico.
+	Faz a pesquisa dos tweets relacionados a um tópico.
 	
 	:param topic: Topico/trend que se deseja encontrar os tweets (Type: string)
 	:param api: API do tweepy
@@ -144,13 +144,14 @@ def save_json_file(json_data, temp_files_path, file_name=f'TweetsData-{date.toda
 	:param json_data: lista final
 	:param filme_name: nome do arquivo json
 	"""
-	path = temp_files_path + file_name
+	path_ = temp_files_path + file_name
 	if not os.path.isdir(temp_files_path):
 		os.makedirs(temp_files_path)
 		print(f"New {temp_files_path} folder created!")
 
-	with open(path, 'w', encoding='utf-8') as f:
+	with open(path_, 'w', encoding='utf-8') as f:
 		json.dump(json_data, f, indent=4, default=str, ensure_ascii=False)
+		print(f"Saving {path_}...")
 
 def extract_trending_tweets(CONSUMER_KEY, 
 							CONSUMER_SECRET, 

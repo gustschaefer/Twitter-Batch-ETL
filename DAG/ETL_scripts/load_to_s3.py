@@ -4,8 +4,11 @@ from airflow.hooks.S3_hook import S3Hook
 
 def local_to_s3(bucket_name, filepath):
 	s3 = S3Hook()
-	for f in glob.glob(filepath):
-		key = 'trending_topics_parquet/'+f.split('/')[-1]
+	json_filepath = filepath + "*.json"
+	print(json_filepath)
+	for f in glob.glob(json_filepath):
+		key = 'trending_topics_json/' + f.split('/')[-1]
+		print(f"key: {key}, filename: {f}")
 		s3.load_file(filename=f, bucket_name=bucket_name,
 					replace=True, key=key)
 

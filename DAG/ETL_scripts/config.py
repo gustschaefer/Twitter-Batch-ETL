@@ -5,8 +5,8 @@ access_token = "1376541401396224000-W9K7oeHJ4QWZPilBYKkK7ued1QlJbe"
 access_token_secret = "TyiBFblzpsNsV0r3FL14OHRYbq7XIdatrzQyPBuWsh3jd"
 
 # temp files RELATIVE path
-temp_json_files = "./temp/json"
-temp_parquet_files = "./temp/parquet"
+temp_json_files = "./temp/json/"
+temp_parquet_files = "./temp/parquet/"
 
 # S3 
 bucket_name = "twitter-trending-topics-etl"

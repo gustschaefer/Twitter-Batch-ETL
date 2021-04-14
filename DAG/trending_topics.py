@@ -6,7 +6,7 @@ import os
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
-#from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
+from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
 
 # Tasks
 from ETL_scripts.load_to_s3 import local_to_s3
@@ -22,13 +22,13 @@ now = datetime.now()
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": datetime(now.year, now.month, now.day),
+    "start_date": datetime(now.year, now.month, now.day - 1),
     "retries": 0,
 }
 
 with DAG(
 	"Twitter_Batch_ETL", 
-	schedule_interval=timedelta(days=1),
+	schedule_interval=timedelta(minutes=1),
 	catchup=False,
 	default_args=default_args
 ) as dag:
@@ -65,17 +65,17 @@ with DAG(
 
 	load_trending_to_s3 = PythonOperator(
 		task_id='load_trending_to_s3',
-		execution_timeout=timedelta(seconds=600),
+		#execution_timeout=timedelta(seconds=600),
 		python_callable=local_to_s3,
 		op_kwargs={
 			'bucket_name': bucket_name,
-			'parquet_filepath': temp_json_files
+			'filepath': temp_json_files
 		},
 	)
     
 	remove_local_files = PythonOperator(
 		task_id='remove_local_files',
-		execution_timeout=timedelta(seconds=600),
+		#execution_timeout=timedelta(seconds=600),
 		python_callable=remove_local,
 		op_kwargs={
 			'temp_json_files': temp_json_files,
