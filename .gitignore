@@ -1,1 +1,4 @@
-# future
+DAG/__pycache__
+DAG/ETL_scripts/__pycache__
+*_SUCCESS*
+.aws
