@@ -1,4 +1,4 @@
-# Twitter-Batch-ETL
+# Twitter Batch ETL
 
 **ESTE É UM PROJETO EM ANDAMENTO/WORK IN PROGRESS...**
 
@@ -10,7 +10,7 @@ Para rodar o projeto:
 - Crie uma conta na AWS se ainda não possui
 - Instale o aws cli
 - Crie e configure o seu Bucket S3
-- Modifique o *bucket_name* do arquivo de confguração *(DAG/ETL_scripts/config.py)* para o seu 
+- Modifique o *bucket_name* do arquivo de configuração *(DAG/ETL_scripts/config.py)* para o seu (criado no passo acima)
 
 Após isso, execute o seguinte comando para criar o arquivo de configuração das suas credenciais da AWS:
 
