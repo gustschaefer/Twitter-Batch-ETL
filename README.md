@@ -1,6 +1,6 @@
 # Twitter Batch ETL
 
-**ESTE É UM PROJETO EM ANDAMENTO/THIS IS A WORK IN PROGRESS**
+**ESTE É UM PROJETO EM ANDAMENTO / THIS IS A WORK IN PROGRESS**
 
 Atualmente é possível extrair os dados em formato json, envialos para o S3 na estrutura: *trending_tweets/TweetsData-COUNTRY-yyyy-mm-dd.json* e remover os arquivos locais. Apenas a conversão para parquet não foi feita, pois esse processo é executado pelo PySpark no container do Airflow, o que está gerando alguns erros de compatibilidade e timeout.
 
