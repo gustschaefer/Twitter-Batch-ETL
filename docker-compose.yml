@@ -33,7 +33,7 @@ services:
         volumes:
             - ./DAG:/usr/local/airflow/dags
             - ./requirements.txt:/requirements.txt
-            - ~/.aws:/usr/local/airflow/.aws/
+            - ./.aws:/usr/local/airflow/.aws/
         ports:
             - "8080:8080"
         command: webserver
