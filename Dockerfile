@@ -1,15 +1,19 @@
-# DESCRIPTION: Basic Airflow container
-# BUILD: docker build --rm -t puckel/docker-airflow .
-# SOURCE: https://github.com/puckel/docker-airflow
+ARG IMAGE_VARIANT=slim-buster
+ARG OPENJDK_VERSION=8
+ARG PYTHON_VERSION=3.7
 
-FROM python:3.7-slim-buster
-LABEL maintainer="Puckel_"
+# Instala Python e Java (Necessário para rodar Spark)
+FROM python:${PYTHON_VERSION}-${IMAGE_VARIANT} AS py3
+FROM openjdk:${OPENJDK_VERSION}-${IMAGE_VARIANT}
 
-# Never prompt the user for choices on installation/configuration of packages
+COPY --from=py3 / /
+
+ARG PYSPARK_VERSION=3.1.1
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
 
-# Airflow
+# Airflow config
 ARG AIRFLOW_VERSION=1.10.9
 ARG AIRFLOW_USER_HOME=/usr/local/airflow
 ARG AIRFLOW_DEPS=""
@@ -23,9 +27,10 @@ ENV LC_ALL en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 ENV LC_MESSAGES en_US.UTF-8
 
-# Disable noisy "Handling signal" log messages:
-# ENV GUNICORN_CMD_ARGS --log-level WARNING
+# Desativa mensagens de log do Airflow
+ENV GUNICORN_CMD_ARGS --log-level WARNING
 
+# Instala dependencias
 RUN set -ex \
     && buildDeps=' \
     freetds-dev \
@@ -44,23 +49,21 @@ RUN set -ex \
     build-essential \
     default-libmysqlclient-dev \
     apt-utils \
+    wget \
     curl \
     rsync \
     tar \
-    # default-jdk \
     netcat \
     locales \
-    # && curl -O https://www.apache.org/dyn/closer.lua/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz \
-    # && tar xvf spark-2.4.5-bin-hadoop2.7.tgz \
     && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
-    && useradd -ms /bin/bash -d ${AIRFLOW_USER_HOME} airflow 
+    && useradd -ms /bin/bash -d ${AIRFLOW_USER_HOME} airflow
 
+# Insta PySpark e outros pacotes python
+RUN pip --no-cache-dir install pyspark==${PYSPARK_VERSION}
 RUN pip install -U pip setuptools wheel \
     && pip install pytz \
-    #&& pip install pyspark \
-    # && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
     && pip install apache-airflow[s3,crypto,celery,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
@@ -78,7 +81,7 @@ RUN pip install -U pip setuptools wheel \
     /var/tmp/* \
     /usr/share/man \
     /usr/share/doc \
-    /usr/share/doc-base
+    /usr/share/doc-base 
 
 COPY setup/entrypoint.sh /entrypoint.sh
 COPY setup/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
