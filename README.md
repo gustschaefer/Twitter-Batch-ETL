@@ -18,7 +18,7 @@ Com os dados salvos, você pode conferir os arquivos json e parquet em seu bucke
 
 <div align="center">
  <img src="./assets/s3-json-folder.png">
- <p>Arquivos json: weetsData-COUNTRY-yyyy-mm-dd.json</p>
+ <p>Arquivos json: TweetsData-COUNTRY-yyyy-mm-dd.json</p>
 </div>
 
 Os arquivos **parquet** são salvos na estrutura *TweetsData-COUNTRY-yyyy-mm-dd/file.parquet*
