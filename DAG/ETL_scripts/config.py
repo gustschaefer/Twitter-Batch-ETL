@@ -10,6 +10,3 @@ temp_parquet_files = "./temp/parquet/"
 
 # S3 
 bucket_name = "twitter-trending-topics-etl"
-
-# Spark
-spark_app_name = "SparkJson2Parquet"

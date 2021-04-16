@@ -90,7 +90,7 @@ def parse_tweet_data(tweet_text):
 		tweets_list.append(tweets_data)
 	return tweets_list
 
-def create_final_data(api, trending_topics, lang="en", num_tweets=10, result_type="mixed"):
+def create_final_data(api, trending_topics, lang="en", num_tweets=50, result_type="mixed"):
 	"""
 	Une informações do trending topic e seus tweets.
 	
@@ -163,7 +163,7 @@ def extract_trending_tweets(CONSUMER_KEY,
 	api = initialize_tweepy(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
 	# Países escolhidos (devem ser estar contidos na lista de woeid da funcao get_country_id)
-	countries = ["Brazil"] #["UK", "Brazil", "Germany", "Canada", "USA", "Sweden"]
+	countries = ["UK", "Brazil", "Germany", "Canada", "USA", "Sweden"]
 
 	for country in countries:
 		c_id = get_country_id(api, country)
