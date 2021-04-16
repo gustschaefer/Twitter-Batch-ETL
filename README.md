@@ -1,6 +1,12 @@
 # Twitter Batch ETL
 
-ETL que encontra os trending topics do Twitter em cinco países (Inglaterra, Brasil, Alemanha, Canada, EUA e Suécia), coleta tweets (dez por padrão) relacionados a cada tópico, realiza transformações para capturar os principais dados de cada tweet, salva os dados em formato json e os converte para parquet. Após isso, os arquivos (json e parquet) são enviados para um bucket no Amazon S3.
+ETL que encontra os trending topics do Twitter em cinco países (Inglaterra, Brasil, Alemanha, Canadá, EUA e Suécia), coleta tweets (dez por padrão) relacionados a cada tópico, realiza transformações para capturar os principais dados de cada tweet, salva os dados em formato json e os converte para parquet. Após isso, os arquivos (json e parquet) são enviados para um bucket no Amazon S3.
+
+
+<p align="center">
+ <img src="./assets/etl-diagram.png">
+</p>
+
 
 Confira os gráficos do Airflow (Grapth View e Tree View) que representam o pipeline:
 
