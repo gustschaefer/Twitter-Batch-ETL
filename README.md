@@ -38,7 +38,7 @@ Os arquivos parquet são salvos na estrutura *TweetsData-COUNTRY-yyyy-mm-dd/file
 - Crie e configure o seu [Bucket S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html)
 - Modifique o *bucket_name* no arquivo de configuração *(DAG/ETL_scripts/config.py)* para o seu (criado no passo acima)
 
-Após isso, execute o seguinte comando para criar o arquivo de configuração das suas credenciais da AWS:
+Após isso, execute o seguinte comando para criar o arquivo de configuração das suas credenciais da AWS, que serão salvas no caminho *~/.aws* e posteriormente usadas no container (ver volumes em *docker-compose.yml*):
 
 ```bash
 $ aws configure
