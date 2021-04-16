@@ -1,10 +1,34 @@
 # Twitter Batch ETL
 
-**ESTE É UM PROJETO EM ANDAMENTO / THIS IS A WORK IN PROGRESS**
+ETL que encontra os trending topics do Twitter em cinco países (Inglaterra, Brasil, Alemanha, Canada, EUA e Suécia), coleta tweets (dez por padrão) relacionados a cada tópico, realiza transformações para capturar os principais dados de cada tweet, salva os dados em formato json e os converte para parquet. Após isso, os arquivos (json e parquet) são enviados para um bucket no Amazon S3.
 
-Atualmente é possível extrair os dados em formato json, envialos para o S3 na estrutura: *trending_tweets/TweetsData-COUNTRY-yyyy-mm-dd.json* e remover os arquivos locais. Apenas a conversão para parquet não foi feita, pois esse processo é executado pelo PySpark no container do Airflow, o que está gerando alguns erros de compatibilidade e timeout.
+Confira os gráficos do Airflow (Grapth View e Tree View) que representam o pipeline:
 
-Para rodar o projeto:
+<p align="center">
+ <img src="./assets/airflow-graphView.png">
+ <p>Graph View</p>
+</p>
+
+<p align="center">
+ <img src="./assets/airflow-tree-view.png">
+ <p>Tree View</p>
+</p>
+
+Com os dados salvos, você pode conferir os arquivos json e parquet em seu bucket.
+
+<p align="center">
+ <img src="./assets/s3-json-folder.png">
+ <p>Arquivos json</p>
+</p>
+
+Os arquivos parquet são salvos na estrutura *TweetsData-COUNTRY-yyyy-mm-dd/file.parquet*
+
+<p align="middle">
+  <img src="./assets/s3-parquet-folder.png" width="50%" />
+  <img src="./assets/parquet-crc.png" width="50%" /> 
+</p>
+
+## Dependências e Executar o projeto
 
 - Uma conta configurada no [twitter para desenvolvedores](https://developer.twitter.com/en)
 - Adicione suas credenciais do Tweepy no arquivo de configuração *(DAG/ETL_scripts/config.py)*. As credenciais são fornecidas após a criação da conta (passo acima): *consumer_key, consumer_secret, access_token e access_token_secret*
@@ -28,7 +52,9 @@ $ cd Twitter-Batch-ETL/
 $ docker-compose up -d
 ```
 
-O comando **docker-compose up -d** cria os containers necessários para o projeto, com seus volumes e variávies. Se desejar instalar mais algum pacote, adicione-o no arquivo *requirements.txt* e utilize o seguinte comando para reconstruir seus containers:
+Após o proceso terminar, acesse [http://localhost:8080/](http://localhost:8080/) para entrar na interface gráfica do Airflow.
+
+O comando **docker-compose up -d** cria os containers necessários para o projeto, com seus volumes e variávies. Se desejar **instalar mais algum pacote**, adicione-o no arquivo *requirements.txt* e utilize o seguinte comando para reconstruir seus containers:
 
 ```bash
 $ docker-compose up --build
