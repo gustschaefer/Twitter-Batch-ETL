@@ -4,29 +4,34 @@ ETL que encontra os trending topics do Twitter em cinco países (Inglaterra, Bra
 
 Confira os gráficos do Airflow (Grapth View e Tree View) que representam o pipeline:
 
-<p align="center">
+<div align="center">
  <img src="./assets/airflow-graphView.png">
  <p>Graph View</p>
-</p>
+</div>
 
-<p align="center">
+<div align="center">
  <img src="./assets/airflow-tree-view.png">
  <p>Tree View</p>
-</p>
+</div>
 
 Com os dados salvos, você pode conferir os arquivos json e parquet em seu bucket.
 
-<p align="center">
+<div align="center">
  <img src="./assets/s3-json-folder.png">
- <p>Arquivos json</p>
-</p>
+ <p>Arquivos json: weetsData-COUNTRY-yyyy-mm-dd.json</p>
+</div>
 
-Os arquivos parquet são salvos na estrutura *TweetsData-COUNTRY-yyyy-mm-dd/file.parquet*
+Os arquivos **parquet** são salvos na estrutura *TweetsData-COUNTRY-yyyy-mm-dd/file.parquet*
 
-<p align="middle">
-  <img src="./assets/s3-parquet-folder.png" width="50%" />
-  <img src="./assets/parquet-crc.png" width="50%" /> 
-</p>
+<div align="center">
+ <img src="./assets/s3-parquet-folder.png">
+ <p>Pastas parquet: TweetsData-COUNTRY-yyyy-mm-dd/</p>
+</div>
+
+<div align="center">
+ <img src="./assets/parquet-crc.png">
+ <p>Arquivos parquet: file.parquet e file.crc</p>
+</div>
 
 ## Dependências e Executar o projeto
 
